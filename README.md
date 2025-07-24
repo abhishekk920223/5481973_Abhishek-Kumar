@@ -4,4 +4,4 @@ technical skills training
 
 
 
-![certificate 2](D:/stepin_training/5481973_Abhishek-Kumar/module_2_git/certificate/module-2_git.pdf)
+[![certificate 2] (module_2_git/certificate/module-2_git.pdf)] (module_2_git/certificate/module-2_git.pdf)
