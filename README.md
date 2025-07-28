@@ -4,4 +4,4 @@ technical skills training
 
 
 
-[![certificate 2](module_2_git/certificate/5481973_Abhishek_Kumar.pdf)](module_2_git/certificate/5481973_Abhishek_Kuma_git.pdf)
+[![certificate 2](module_2_git/certificate/5481973_Abhishek_Kumar.pdf)](module_2_git/certificate/5481973_Abhishek_Kumar_git.pdf)
