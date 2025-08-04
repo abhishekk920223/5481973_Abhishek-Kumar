@@ -1,0 +1,21 @@
+void plusMinus(vector<int> arr) {
+    int n= arr.size();
+    int cntP=0, cntN=0, cnt0=0;
+    for(int i=0;i<n;i++){
+        if(arr[i]>0){
+            cntP++;
+        }
+        else if(arr[i]<0){
+            cntN++;
+        }
+        else{
+            cnt0++;
+        }
+        
+    }
+    cout << fixed << setprecision(6);
+    cout<<(double)cntP/n<<endl;
+    cout<<(double)cntN/n<<endl;
+    cout<<(double)cnt0/n<<endl;
+
+}
