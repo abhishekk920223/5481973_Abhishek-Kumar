@@ -1,0 +1,17 @@
+vector<int> matchingStrings(vector<string> strings, vector<string> queries) {
+    unordered_map<string, int> freqMap;
+    
+    // Count occurrences of each string
+    for (const string& str : strings) {
+        freqMap[str]++;
+    }
+
+    vector<int> result;
+    
+    // For each query, get its frequency
+    for (const string& query : queries) {
+        result.push_back(freqMap[query]);  // If not found, returns 0 by default
+    }
+
+    return result;
+}
