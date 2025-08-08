@@ -1,0 +1,10 @@
+long flippingBits(long n) {
+    // Step 1: Create mask of 32 bits all set to 1
+    long mask = (1L << 32) - 1;  // 4294967295
+
+    // Step 2: XOR with mask flips the bits (property of xor)
+    long result = n ^ mask;
+
+    // Step 3: Return result
+    return result;
+}
