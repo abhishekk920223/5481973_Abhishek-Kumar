@@ -1,0 +1,16 @@
+string pangrams(string s) {
+    vector<bool> seen(26, false);
+    int count = 0;
+
+    for (char ch : s) {
+        if (isalpha(ch)) {
+            ch = tolower(ch);
+            int idx = ch - 'a';// maps 0 to 25
+            if (!seen[idx]) {
+                seen[idx] = true;
+                count++;
+            }
+        }
+    }
+    return (count == 26) ? "pangram" : "not pangram";
+}
