@@ -1,0 +1,17 @@
+// sliding window
+int birthday(vector<int> s, int d, int m) {
+    int n = s.size();
+    int count = 0;
+    
+    if (n < m) return 0; // Can't form a segment
+    
+    int sum = 0;
+    for (int i = 0; i < m; i++) sum += s[i];
+    if (sum == d) count++;
+    
+    for (int i = m; i < n; i++) {
+        sum = sum - s[i - m] + s[i];
+        if (sum == d) count++;
+    }
+    return count;
+}
