@@ -1,0 +1,16 @@
+int sockMerchant(int n, vector<int> ar) {
+    unordered_map<int, int> freq; // store frequency of each color
+    int pairs = 0;
+
+    // Count frequency of each sock color
+    for (int color : ar) {
+        freq[color]++;
+    }
+
+    // Count total pairs
+    for (auto &entry : freq) {
+        pairs += entry.second / 2; // integer division
+    }
+
+    return pairs;
+}
