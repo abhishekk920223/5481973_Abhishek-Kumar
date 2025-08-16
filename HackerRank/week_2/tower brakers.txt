@@ -1,0 +1,14 @@
+int towerBreakers(int n, int m) {
+    // Case 1: If towers are already of height 1, Player 1 cannot move
+    if (m == 1) {
+        return 2;
+    }
+    // Case 2: If number of towers is even, Player 2 mirrors and wins
+    else if (n % 2 == 0) {
+        return 2;
+    }
+    // Case 3: Odd number of towers, Player 1 wins
+    else {
+        return 1;
+    }
+}

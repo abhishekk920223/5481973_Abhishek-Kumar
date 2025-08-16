@@ -1,0 +1,21 @@
+string caesarCipher(string s, int k) {
+    string result = "";
+    k = k % 26; // handle cases when k > 26
+
+    for (char c : s) {
+        if (isalpha(c)) {
+            if (isupper(c)) {
+                // Shift within A-Z
+                result += char(((c - 'A' + k) % 26) + 'A');
+            } else {
+                // Shift within a-z
+                result += char(((c - 'a' + k) % 26) + 'a');
+            }
+        } else {
+            // Non-alphabetic characters remain unchanged
+            result += c;
+        }
+    }
+
+    return result;
+}
