@@ -1,0 +1,52 @@
+int daysInMonth(int month, int year) {
+    if (month == 2) {
+        // Leap year check
+        if ((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
+            return 29;
+        else
+            return 28;
+    }
+    if (month == 1 || month == 3 || month == 5 || month == 7 ||
+        month == 8 || month == 10 || month == 12)
+        return 31;
+    return 30;
+}
+
+int main() {
+    string sDate, eDate;
+    cin >> sDate >> eDate;
+
+    int d1 = stoi(sDate.substr(0, 2));
+    int m1 = stoi(sDate.substr(3, 2));
+    int y1 = stoi(sDate.substr(6, 4));
+
+    int d2 = stoi(eDate.substr(0, 2));
+    int m2 = stoi(eDate.substr(3, 2));
+    int y2 = stoi(eDate.substr(6, 4));
+
+    int count = 0;
+
+    while (true) {
+        string temp = to_string(d1) + to_string(m1) + to_string(y1);
+        long long num = stoll(temp);
+
+        if (num % 4 == 0 || num % 7 == 0)
+            count++;
+
+        if (d1 == d2 && m1 == m2 && y1 == y2)
+            break;
+
+        d1++;
+        if (d1 > daysInMonth(m1, y1)) {
+            d1 = 1;
+            m1++;
+            if (m1 > 12) {
+                m1 = 1;
+                y1++;
+            }
+        }
+    }
+
+    cout << count << endl;
+    return 0;
+}

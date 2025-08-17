@@ -1,0 +1,23 @@
+int superDigit(string n, int k) {
+    // helper lambda to compute digit sum of a string
+    auto digitSum = [&](string s) {
+        long long sum = 0;
+        for (char c : s) sum += (c - '0');
+        return sum;
+    };
+
+    // Step 1: initial sum = sum of digits of n * k
+    long long initial = digitSum(n) * 1LL * k;
+
+    // Step 2: reduce until one digit
+    while (initial >= 10) {
+        long long temp = 0;
+        while (initial > 0) {
+            temp += initial % 10;
+            initial /= 10;
+        }
+        initial = temp;
+    }
+
+    return (int)initial;
+}
