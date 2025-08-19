@@ -1,0 +1,23 @@
+void minimumBribes(vector<int> q) {
+    int n = q.size();
+    int bribes = 0;
+
+    for (int i = 0; i < n; i++) {
+        int person = q[i];
+        
+        // Check if this person has moved more than 2 positions ahead
+        if (person - (i + 1) > 2) {
+            cout << "Too chaotic" << endl;
+            return;
+        }
+        
+        // Count how many times this person was overtaken
+        // Only need to check from max(0, person-2) to i-1
+        for (int j = max(0, person - 2); j < i; j++) {
+            if (q[j] > person) {
+                bribes++;
+            }
+        }
+    }
+    cout << bribes << endl;
+}

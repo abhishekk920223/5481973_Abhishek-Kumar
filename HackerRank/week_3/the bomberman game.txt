@@ -1,0 +1,40 @@
+vector<string> bomberMan(int n, vector<string> grid) {
+    int R = grid.size();
+    int C = grid[0].size();
+
+    // Helper lambda to simulate explosion
+    auto explode = [&](vector<string> g) {
+        vector<string> newGrid(R, string(C, 'O')); // full of bombs
+        vector<vector<bool>> clear(R, vector<bool>(C, false));
+
+        // Mark cells to be cleared
+        for (int i = 0; i < R; i++) {
+            for (int j = 0; j < C; j++) {
+                if (g[i][j] == 'O') {
+                    clear[i][j] = true;
+                    if (i > 0) clear[i-1][j] = true;
+                    if (i < R-1) clear[i+1][j] = true;
+                    if (j > 0) clear[i][j-1] = true;
+                    if (j < C-1) clear[i][j+1] = true;
+                }
+            }
+        }
+
+        // Apply explosions
+        for (int i = 0; i < R; i++) {
+            for (int j = 0; j < C; j++) {
+                if (clear[i][j]) newGrid[i][j] = '.';
+            }
+        }
+        return newGrid;
+    };
+
+    // Base cases
+    if (n == 1) return grid;
+    if (n % 2 == 0) return vector<string>(R, string(C, 'O'));
+
+    // For odd n > 1
+    vector<string> afterFirst = explode(grid);
+    if (n % 4 == 3) return afterFirst;
+    return explode(afterFirst);
+}

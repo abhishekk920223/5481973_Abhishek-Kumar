@@ -1,0 +1,15 @@
+string counterGame(long n) {
+    int moves = 0;
+    while (n > 1) {
+        if ((n & (n - 1)) == 0) {
+            // n is power of 2
+            n >>= 1;  // divide by 2
+        } else {
+            // subtract largest power of 2 < n
+            long p = 1L << (63 - __builtin_clzll(n));
+            n -= p;
+        }
+        moves++;
+    }
+    return (moves % 2 == 1) ? "Louise" : "Richard";
+}
