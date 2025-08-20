@@ -1,0 +1,92 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+// Singly linked list node
+struct SinglyLinkedListNode {
+    int data;
+    SinglyLinkedListNode* next;
+    SinglyLinkedListNode(int node_data) {
+        data = node_data;
+        next = nullptr;
+    }
+};
+
+// Function to insert node at the tail
+void insertNodeAtTail(SinglyLinkedListNode*& head, int data) {
+    SinglyLinkedListNode* newNode = new SinglyLinkedListNode(data);
+    if (head == nullptr) {
+        head = newNode;
+        return;
+    }
+    SinglyLinkedListNode* temp = head;
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+
+// Function to merge two sorted lists
+SinglyLinkedListNode* mergeLists(SinglyLinkedListNode* headA, SinglyLinkedListNode* headB) {
+    if (headA == nullptr) return headB;
+    if (headB == nullptr) return headA;
+
+    SinglyLinkedListNode dummy(0);
+    SinglyLinkedListNode* tail = &dummy;
+
+    while (headA != nullptr && headB != nullptr) {
+        if (headA->data <= headB->data) {
+            tail->next = headA;
+            headA = headA->next;
+        } else {
+            tail->next = headB;
+            headB = headB->next;
+        }
+        tail = tail->next;
+    }
+
+    if (headA != nullptr) tail->next = headA;
+    if (headB != nullptr) tail->next = headB;
+
+    return dummy.next;
+}
+
+// Function to print a linked list
+void printList(SinglyLinkedListNode* head) {
+    while (head != nullptr) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    int t;
+    cin >> t; // number of test cases
+    while (t--) {
+        int n1;
+        cin >> n1;
+        SinglyLinkedListNode* headA = nullptr;
+        for (int i = 0; i < n1; i++) {
+            int val;
+            cin >> val;
+            insertNodeAtTail(headA, val);
+        }
+
+        int n2;
+        cin >> n2;
+        SinglyLinkedListNode* headB = nullptr;
+        for (int i = 0; i < n2; i++) {
+            int val;
+            cin >> val;
+            insertNodeAtTail(headB, val);
+        }
+
+        SinglyLinkedListNode* mergedHead = mergeLists(headA, headB);
+        printList(mergedHead);
+    }
+    return 0;
+}
