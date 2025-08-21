@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int equalStacks(vector<int> h1, vector<int> h2, vector<int> h3) {
+    int sum1 = accumulate(h1.begin(), h1.end(), 0);
+    int sum2 = accumulate(h2.begin(), h2.end(), 0);
+    int sum3 = accumulate(h3.begin(), h3.end(), 0);
+
+    int i1 = 0, i2 = 0, i3 = 0;  // indices for top of each stack
+
+    while (true) {
+        // If any stack becomes empty
+        if (i1 == h1.size() || i2 == h2.size() || i3 == h3.size()) {
+            return 0;
+        }
+
+        // If all three sums equal
+        if (sum1 == sum2 && sum2 == sum3) {
+            return sum1;
+        }
+
+        // Remove from the tallest stack
+        if (sum1 >= sum2 && sum1 >= sum3) {
+            sum1 -= h1[i1++];
+        } else if (sum2 >= sum1 && sum2 >= sum3) {
+            sum2 -= h2[i2++];
+        } else {
+            sum3 -= h3[i3++];
+        }
+    }
+}

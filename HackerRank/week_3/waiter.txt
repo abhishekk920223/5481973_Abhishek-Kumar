@@ -1,0 +1,53 @@
+vector<int> generatePrimes(int q) {
+    vector<int> primes;
+    int num = 2;
+    while (primes.size() < q) {
+        bool isPrime = true;
+        for (int i = 2; i * i <= num; i++) {
+            if (num % i == 0) {
+                isPrime = false;
+                break;
+            }
+        }
+        if (isPrime) primes.push_back(num);
+        num++;
+    }
+    return primes;
+}
+
+vector<int> waiter(vector<int> number, int q) {
+    vector<int> result;
+    vector<int> primes = generatePrimes(q);
+
+    stack<int> A;
+    // push all plates to stack A (last element should be on top)
+    for (int i = 0; i < number.size(); i++) {
+        A.push(number[i]);
+    }
+
+    for (int i = 0; i < q; i++) {
+        stack<int> nextA, B;
+        while (!A.empty()) {
+            int plate = A.top(); A.pop();
+            if (plate % primes[i] == 0) {
+                B.push(plate);
+            } else {
+                nextA.push(plate);
+            }
+        }
+        // add B plates to result (top to bottom)
+        while (!B.empty()) {
+            result.push_back(B.top());
+            B.pop();
+        }
+        A = nextA;
+    }
+
+    // add remaining plates in A (top to bottom)
+    while (!A.empty()) {
+        result.push_back(A.top());
+        A.pop();
+    }
+
+    return result;
+}

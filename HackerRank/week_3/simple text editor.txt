@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int Q;
+    cin >> Q;
+    string S = "";
+    stack<pair<int, string>> history; // {operationType, stringData}
+
+    while (Q--) {
+        int type;
+        cin >> type;
+
+        if (type == 1) {  // append
+            string W;
+            cin >> W;
+            S += W;
+            history.push({1, W});
+        } 
+        else if (type == 2) {  // delete
+            int k;
+            cin >> k;
+            string deleted = S.substr(S.size() - k, k);
+            S.erase(S.size() - k, k);
+            history.push({2, deleted});
+        } 
+        else if (type == 3) {  // print
+            int k;
+            cin >> k;
+            cout << S[k - 1] << endl;
+        } 
+        else if (type == 4) {  // undo
+            if (!history.empty()) {
+                auto last = history.top();
+                history.pop();
+
+                if (last.first == 1) {  
+                    // undo append
+                    int len = last.second.size();
+                    S.erase(S.size() - len, len);
+                } 
+                else if (last.first == 2) {  
+                    // undo delete
+                    S += last.second;
+                }
+            }
+        }
+    }
+    return 0;
+}
