@@ -1,0 +1,43 @@
+const int MOD = 1000000007;
+
+int legoBlocks(int n, int m) {
+    vector<long long> rowWays(m + 1, 0);
+    rowWays[0] = 1;
+    
+    // Step 1: ways to build one row
+    for (int w = 1; w <= m; w++) {
+        for (int b = 1; b <= 4; b++) {
+            if (w - b >= 0)
+                rowWays[w] = (rowWays[w] + rowWays[w - b]) % MOD;
+        }
+    }
+    
+    // Step 2: total ways (without solidity constraint)
+    vector<long long> total(m + 1, 0);
+    for (int w = 1; w <= m; w++) {
+        long long val = 1;
+        long long base = rowWays[w];
+        int exp = n;
+        
+        // fast exponentiation
+        long long res = 1;
+        while (exp > 0) {
+            if (exp & 1) res = (res * base) % MOD;
+            base = (base * base) % MOD;
+            exp >>= 1;
+        }
+        
+        total[w] = res;
+    }
+    
+    // Step 3: compute solid walls
+    vector<long long> solid(m + 1, 0);
+    for (int w = 1; w <= m; w++) {
+        solid[w] = total[w];
+        for (int k = 1; k < w; k++) {
+            solid[w] = (solid[w] - (solid[k] * total[w - k]) % MOD + MOD) % MOD;
+        }
+    }
+    
+    return solid[m];
+}
