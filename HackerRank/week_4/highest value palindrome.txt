@@ -1,0 +1,48 @@
+string highestValuePalindrome(string s, int n, int k) {
+    vector<bool> changed(n, false);
+    int l = 0, r = n - 1;
+    int changesNeeded = 0;
+
+    // First pass: make palindrome with minimal changes
+    while (l < r) {
+        if (s[l] != s[r]) {
+            changesNeeded++;
+            if (s[l] > s[r]) s[r] = s[l];
+            else s[l] = s[r];
+            changed[l] = changed[r] = true;
+        }
+        l++, r--;
+    }
+
+    // If impossible
+    if (changesNeeded > k) return "-1";
+
+    int extra = k - changesNeeded; // leftover changes
+    l = 0, r = n - 1;
+
+    // Second pass: maximize palindrome
+    while (l <= r) {
+        if (l == r) {  // middle digit (odd length)
+            if (extra > 0 && s[l] != '9') s[l] = '9';
+        } else {
+            if (s[l] != '9') {
+                if (changed[l] || changed[r]) {
+                    // Already changed once, only 1 more needed
+                    if (extra > 0) {
+                        s[l] = s[r] = '9';
+                        extra--;
+                    }
+                } else {
+                    // Need 2 changes if untouched
+                    if (extra >= 2) {
+                        s[l] = s[r] = '9';
+                        extra -= 2;
+                    }
+                }
+            }
+        }
+        l++, r--;
+    }
+
+    return s;
+}

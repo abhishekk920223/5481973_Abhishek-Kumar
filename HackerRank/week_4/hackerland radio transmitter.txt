@@ -1,0 +1,22 @@
+int hackerlandRadioTransmitters(vector<int> x, int k) {
+    sort(x.begin(), x.end());  // sort house positions
+    int n = x.size();
+    int i = 0, transmitters = 0;
+    
+    while (i < n) {
+        transmitters++;   // we'll place one transmitter
+        
+        // Step 1: move to the furthest house within k of x[i]
+        int loc = x[i] + k;
+        while (i < n && x[i] <= loc) i++;
+        
+        // Step 2: place transmitter at the furthest house within range
+        int pos = x[i - 1];  // transmitter position
+        loc = pos + k;       // transmitter covers until here
+        
+        // Step 3: skip all houses covered by this transmitter
+        while (i < n && x[i] <= loc) i++;
+    }
+    
+    return transmitters;
+}

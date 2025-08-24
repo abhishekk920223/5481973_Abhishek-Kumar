@@ -1,0 +1,22 @@
+long arrayManipulation(int n, vector<vector<int>> queries) {
+    vector<long long> arr(n + 2, 0);  // use long long for large sums
+
+    // Apply difference array updates
+    for (auto &q : queries) {
+        int a = q[0];
+        int b = q[1];
+        int k = q[2];
+        arr[a] += k;
+        if (b + 1 <= n) arr[b + 1] -= k;
+    }
+
+    // Prefix sum + find max
+    long long maxVal = 0, curr = 0;
+    for (int i = 1; i <= n; i++) {
+        curr += arr[i];
+        maxVal = max(maxVal, curr);
+    }
+
+    return maxVal;
+}
+

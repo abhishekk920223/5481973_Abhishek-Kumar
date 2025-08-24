@@ -1,0 +1,42 @@
+vector<int> solve(vector<int> arr, vector<int> queries) {
+    int n = arr.size();
+    vector<int> left(n), right(n);
+    
+    // Find Previous Greater Element (PGE)
+    stack<int> st;
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && arr[st.top()] <= arr[i]) st.pop();
+        left[i] = (st.empty() ? -1 : st.top());
+        st.push(i);
+    }
+    
+    // Find Next Greater Element (NGE)
+    while (!st.empty()) st.pop();
+    for (int i = n-1; i >= 0; i--) {
+        while (!st.empty() && arr[st.top()] < arr[i]) st.pop();
+        right[i] = (st.empty() ? n : st.top());
+        st.push(i);
+    }
+    
+    // Initialize results
+    vector<int> res(n+1, INT_MAX);
+    
+    // Fill with candidate values
+    for (int i = 0; i < n; i++) {
+        int len = right[i] - left[i] - 1;
+        res[len] = min(res[len], arr[i]);
+    }
+    
+    // Propagate backwards
+    for (int i = n-1; i >= 1; i--) {
+        res[i] = min(res[i], res[i+1]);
+    }
+    
+    // Answer queries
+    vector<int> ans;
+    for (int q : queries) {
+        ans.push_back(res[q]);
+    }
+    
+    return ans;
+}
