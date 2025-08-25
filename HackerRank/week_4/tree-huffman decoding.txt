@@ -1,0 +1,98 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int freq;
+    char data;
+    Node* left;
+    Node* right;
+    Node(int f, char d) {
+        freq = f;
+        data = d;
+        left = right = nullptr;
+    }
+};
+
+// Comparator for min-heap (priority queue)
+struct Compare {
+    bool operator()(Node* l, Node* r) {
+        return l->freq > r->freq;
+    }
+};
+
+// Build Huffman Tree from frequency table
+Node* buildHuffmanTree(const string& s) {
+    unordered_map<char, int> freqMap;
+    for (char c : s) {
+        freqMap[c]++;
+    }
+
+    priority_queue<Node*, vector<Node*>, Compare> pq;
+    for (auto& entry : freqMap) {
+        pq.push(new Node(entry.second, entry.first));
+    }
+
+    while (pq.size() > 1) {
+        Node* left = pq.top(); pq.pop();
+        Node* right = pq.top(); pq.pop();
+
+        Node* merged = new Node(left->freq + right->freq, '\0');
+        merged->left = left;
+        merged->right = right;
+
+        pq.push(merged);
+    }
+    return pq.top();
+}
+
+// Traverse tree to build encoding map
+void buildCodes(Node* root, string code, unordered_map<char,string>& codes) {
+    if (!root) return;
+    if (!root->left && !root->right) {
+        codes[root->data] = code;
+    }
+    buildCodes(root->left, code + "0", codes);
+    buildCodes(root->right, code + "1", codes);
+}
+
+// Function to decode Huffman encoded string
+void decode_huff(Node* root, string s) {
+    Node* curr = root;
+    for (char c : s) {
+        if (c == '0') curr = curr->left;
+        else curr = curr->right;
+
+        // If leaf node
+        if (!curr->left && !curr->right) {
+            cout << curr->data;
+            curr = root;
+        }
+    }
+    cout << endl;
+}
+
+int main() {
+    string input;
+    getline(cin, input);
+
+    // Build Huffman Tree
+    Node* root = buildHuffmanTree(input);
+
+    // Build encoding map
+    unordered_map<char,string> codes;
+    buildCodes(root, "", codes);
+
+    // Encode the string
+    string encoded = "";
+    for (char c : input) {
+        encoded += codes[c];
+    }
+
+    // Print encoded string (for debugging)
+    // cout << "Encoded: " << encoded << endl;
+
+    // Decode
+    decode_huff(root, encoded);
+
+    return 0;
+}

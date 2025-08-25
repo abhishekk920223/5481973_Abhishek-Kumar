@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+
+// Insert a new value into the BST
+Node* insert(Node* root, int data) {
+    if (root == nullptr) {
+        return new Node(data);
+    }
+    if (data <= root->data) {
+        root->left = insert(root->left, data);
+    } else {
+        root->right = insert(root->right, data);
+    }
+    return root;
+}
+
+// Preorder Traversal: Root, Left, Right
+void preOrder(Node* root) {
+    if (root == nullptr) return;
+    cout << root->data << " ";
+    preOrder(root->left);
+    preOrder(root->right);
+}
+
+int main() {
+    int n;
+    cin >> n;
+    Node* root = nullptr;
+
+    for (int i = 0; i < n; i++) {
+        int val;
+        cin >> val;
+        root = insert(root, val);
+    }
+
+    preOrder(root);
+    return 0;
+}
